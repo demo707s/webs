@@ -297,18 +297,28 @@
 
 <script>
 const USERS = [
-  { id: 'branas',       name: 'Braňas',        avatar: '🧔' },
-  { id: 'celis',        name: 'Čelis',          avatar: '😎' },
-  { id: 'jagr',         name: 'Kapitán Jägger', avatar: '⚓' },
-  { id: 'mocal',        name: 'Močál',          avatar: '🐊' },
-  { id: 'zeblitek',     name: 'Pan zeblitek',   avatar: '🦓' },
-  { id: 'stepik',       name: 'Stepik',         avatar: '🥾' },
-  { id: 'vodka',        name: 'VODKA master',   avatar: '🍶' },
-  { id: 'berta',        name: 'Berta',          avatar: '🌸' },
-  { id: 'kotlas',       name: 'Kotlas',         avatar: '🪓' },
+  { id: 'branas',       name: 'Braňas',        avatar: '🧔🍺' },
+  { id: 'celis',        name: 'Čelis',          avatar: '😎🍺' },
+  { id: 'jagr',         name: 'Kapitán Jägger', avatar: '⚓🍺' },
+  { id: 'mocal',        name: 'Močál',          avatar: '🐊🍺' },
+  { id: 'zeblitek',     name: 'Pan zeblitek',   avatar: '🦓🍺' },
+  { id: 'stepik',       name: 'Stepik',         avatar: '🥾🍺' },
+  { id: 'vodka',        name: 'VODKA master',   avatar: '🍶🍺' },
+  { id: 'berta',        name: 'Berta',          avatar: '🌸🍺' },
+  { id: 'kotlas',       name: 'Kotlas',         avatar: '🪓🍺' },
 ];
 
 const DATA = [
+  {
+    icon: "🤝",
+    title: "Společné věci",
+    shared: true,
+    items: [
+      { id: "sh_grill",   label: "Grill" },
+      { id: "sh_nuz",     label: "Nůž" },
+      { id: "sh_alkohol", label: "Alkohol" },
+    ]
+  },
   {
     icon: "🛏️",
     title: "Spánek & přístřeší",
@@ -354,33 +364,31 @@ const DATA = [
     icon: "🎒",
     title: "Vybavení & zábava",
     items: [
-      { id: "nuz",   label: "Nůž" },
       { id: "provaz", label: "Provaz" },
-      { id: "karty", label: "Karty" },
+      { id: "karty",  label: "Karty" },
     ]
   },
 ];
 
-const USER_KEY = 'kemping_current_user';
+const USER_KEY    = 'kemping_current_user';
+const SHARED_KEY  = 'kemping_shared';
 
-let currentUser = null;
-let checked = {};
+let currentUser   = null;
+let checked       = {};
+let sharedChecked = {};
 let currentFilter = 'all';
 
-function storageKey() {
-  return 'kemping_' + currentUser.id;
-}
+function getChecked(isShared) { return isShared ? sharedChecked : checked; }
 
 function loadState() {
-  try {
-    const saved = localStorage.getItem(storageKey());
-    checked = saved ? JSON.parse(saved) : {};
-  } catch(e) { checked = {}; }
+  try { const s = localStorage.getItem('kemping_' + currentUser.id); checked = s ? JSON.parse(s) : {}; } catch(e) { checked = {}; }
+  try { const s = localStorage.getItem(SHARED_KEY); sharedChecked = s ? JSON.parse(s) : {}; } catch(e) { sharedChecked = {}; }
 }
 
-function saveState() {
+function saveState(isShared) {
   try {
-    localStorage.setItem(storageKey(), JSON.stringify(checked));
+    if (isShared) localStorage.setItem(SHARED_KEY, JSON.stringify(sharedChecked));
+    else          localStorage.setItem('kemping_' + currentUser.id, JSON.stringify(checked));
   } catch(e) {}
 }
 
@@ -403,9 +411,9 @@ function switchUser() {
   currentUser = null;
 }
 
-function toggleItem(id) {
-  checked[id] = !checked[id];
-  saveState();
+function toggleItem(id, isShared) {
+  if (isShared) { sharedChecked[id] = !sharedChecked[id]; saveState(true); }
+  else          { checked[id]       = !checked[id];        saveState(false); }
   render();
 }
 
@@ -421,22 +429,22 @@ function setFilter(f) {
 }
 
 function confirmReset() {
-  if (confirm('Opravdu chceš vše odškrtnout?')) {
+  if (confirm('Opravdu chceš vše odškrtnout? (Společné věci se nesmažou)')) {
     checked = {};
-    saveState();
+    saveState(false);
     render();
   }
 }
 
-function getAllItems() {
-  return DATA.flatMap(cat => cat.items);
+function isItemChecked(item, cat) {
+  return cat.shared ? !!sharedChecked[item.id] : !!checked[item.id];
 }
 
 function updateProgress() {
-  const all = getAllItems();
-  const total = all.length;
-  const done = all.filter(i => checked[i.id]).length;
-  const pct = total ? Math.round((done / total) * 100) : 0;
+  const personal = DATA.filter(c => !c.shared).flatMap(c => c.items);
+  const total = personal.length;
+  const done  = personal.filter(i => !!checked[i.id]).length;
+  const pct   = total ? Math.round((done / total) * 100) : 0;
   document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('progressText').textContent = done + ' / ' + total + ' zaškrtnuto (' + pct + '%)';
 }
@@ -444,21 +452,28 @@ function updateProgress() {
 function render() {
   updateProgress();
   DATA.forEach((cat, ci) => {
-    const catEl = document.getElementById('cat_' + ci);
+    const catEl  = document.getElementById('cat_' + ci);
     const listEl = document.getElementById('list_' + ci);
-    let visibleItems = cat.items;
-    if (currentFilter === 'missing') visibleItems = cat.items.filter(i => !checked[i.id]);
-    if (currentFilter === 'done')    visibleItems = cat.items.filter(i =>  checked[i.id]);
-    const done = cat.items.filter(i => checked[i.id]).length;
+    const isShared = !!cat.shared;
+
+    let visibleItems = cat.items.filter(i => {
+      const chk = isItemChecked(i, cat);
+      if (currentFilter === 'missing') return !chk;
+      if (currentFilter === 'done')    return  chk;
+      return true;
+    });
+
+    const done = cat.items.filter(i => isItemChecked(i, cat)).length;
     document.getElementById('count_' + ci).textContent = done + '/' + cat.items.length;
+
     if (visibleItems.length === 0) {
       catEl.style.display = 'none';
     } else {
       catEl.style.display = 'block';
       listEl.innerHTML = visibleItems.map(item => {
-        const isChecked = !!checked[item.id];
-        const isMissing = !isChecked;
-        return `<div class="item ${isChecked ? 'checked' : ''} ${isMissing && currentFilter !== 'done' ? 'missing' : ''}" onclick="toggleItem('${item.id}')">
+        const isChecked = isItemChecked(item, cat);
+        const isMissing = !isChecked && currentFilter !== 'done';
+        return `<div class="item ${isChecked ? 'checked' : ''} ${isMissing ? 'missing' : ''}" onclick="toggleItem('${item.id}', ${isShared})">
           <div class="checkbox">
             <svg class="checkmark" viewBox="0 0 13 10"><polyline points="1,5 5,9 12,1"/></svg>
             <span class="missing-dot"></span>
@@ -480,10 +495,14 @@ function buildDOM() {
     const div = document.createElement('div');
     div.className = 'category';
     div.id = 'cat_' + ci;
+    const sharedBadge = cat.shared
+      ? `<span style="font-size:11px;background:rgba(45,90,39,0.12);color:#2d5a27;border-radius:99px;padding:2px 8px;font-weight:700;margin-right:4px">VŠICHNI</span>`
+      : '';
     div.innerHTML = `
       <div class="category-header" onclick="toggleCategory(${ci})">
         <span class="category-icon">${cat.icon}</span>
         <span class="category-title">${cat.title}</span>
+        ${sharedBadge}
         <span class="category-count" id="count_${ci}"></span>
         <span class="category-chevron">▼</span>
       </div>
@@ -503,16 +522,10 @@ function buildPicker() {
   `).join('');
 }
 
-// Init
 buildPicker();
-
-// Auto-select if same user opens again
 try {
   const savedId = localStorage.getItem(USER_KEY);
-  if (savedId) {
-    const u = USERS.find(x => x.id === savedId);
-    if (u) selectUser(u);
-  }
+  if (savedId) { const u = USERS.find(x => x.id === savedId); if (u) selectUser(u); }
 } catch(e) {}
 </script>
 
