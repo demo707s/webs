@@ -19,241 +19,220 @@
     padding-bottom: 100px;
   }
 
+  /* ── USER PICKER OVERLAY ── */
+  #picker {
+    position: fixed; inset: 0; z-index: 100;
+    background: #1e3d1b;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px 20px;
+  }
+
+  #picker h2 {
+    color: #fff;
+    font-size: 26px; font-weight: 800;
+    margin-bottom: 6px; text-align: center;
+  }
+
+  #picker p {
+    color: rgba(255,255,255,0.6);
+    font-size: 15px; margin-bottom: 28px; text-align: center;
+  }
+
+  .user-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%; max-width: 360px;
+  }
+
+  .user-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 14px;
+    padding: 16px 12px;
+    cursor: pointer;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px;
+    transition: all 0.15s;
+    color: white;
+  }
+
+  .user-btn:active { transform: scale(0.96); background: rgba(255,255,255,0.2); }
+
+  .user-avatar {
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .user-name {
+    font-size: 14px; font-weight: 700;
+    text-align: center; line-height: 1.2;
+  }
+
+  /* ── HEADER ── */
   header {
     background: #2d5a27;
     color: white;
-    padding: 20px 16px 16px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    padding: 16px 16px 14px;
+    position: sticky; top: 0; z-index: 10;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
 
-  header h1 {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    margin-bottom: 8px;
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
   }
+
+  .header-top h1 { font-size: 20px; font-weight: 800; }
+
+  .user-chip {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 99px;
+    padding: 5px 12px 5px 8px;
+    cursor: pointer;
+    font-size: 13px; font-weight: 600; color: white;
+    transition: background 0.15s;
+  }
+  .user-chip:active { background: rgba(255,255,255,0.25); }
+  .user-chip-avatar { font-size: 16px; }
 
   .progress-bar-wrap {
     background: rgba(255,255,255,0.25);
-    border-radius: 99px;
-    height: 6px;
-    overflow: hidden;
+    border-radius: 99px; height: 6px; overflow: hidden;
   }
 
   .progress-bar {
     background: #7ed957;
-    height: 100%;
-    border-radius: 99px;
+    height: 100%; border-radius: 99px;
     transition: width 0.3s ease;
   }
 
-  .progress-text {
-    font-size: 13px;
-    margin-top: 6px;
-    opacity: 0.85;
-  }
+  .progress-text { font-size: 13px; margin-top: 6px; opacity: 0.85; }
 
+  /* ── TOOLBAR ── */
   .toolbar {
-    display: flex;
-    gap: 8px;
+    display: flex; gap: 8px;
     padding: 12px 16px;
     background: #f5f5f0;
     border-bottom: 1px solid #ddd;
-    position: sticky;
-    top: 88px;
-    z-index: 9;
+    position: sticky; top: 86px; z-index: 9;
   }
 
   .toolbar button {
-    flex: 1;
-    padding: 8px 4px;
-    border: 1.5px solid #ccc;
-    border-radius: 8px;
-    background: white;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    color: #333;
-    transition: all 0.15s;
+    flex: 1; padding: 8px 4px;
+    border: 1.5px solid #ccc; border-radius: 8px;
+    background: white; font-size: 13px; font-weight: 600;
+    cursor: pointer; color: #333; transition: all 0.15s;
   }
 
   .toolbar button:active { transform: scale(0.97); }
   .toolbar button.active { background: #2d5a27; color: white; border-color: #2d5a27; }
 
-  .category {
-    margin: 16px 12px 0;
-  }
+  /* ── CATEGORIES ── */
+  .category { margin: 16px 12px 0; }
 
   .category-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
     padding: 10px 14px;
     background: white;
     border-radius: 12px 12px 0 0;
-    border: 1px solid #e0e0e0;
-    border-bottom: none;
-    cursor: pointer;
-    user-select: none;
+    border: 1px solid #e0e0e0; border-bottom: none;
+    cursor: pointer; user-select: none;
   }
 
   .category-header:active { background: #f0f0f0; }
-
-  .category-icon {
-    font-size: 20px;
-    width: 28px;
-    text-align: center;
-  }
-
-  .category-title {
-    font-size: 15px;
-    font-weight: 700;
-    flex: 1;
-    color: #2d5a27;
-  }
-
-  .category-count {
-    font-size: 12px;
-    color: #888;
-    font-weight: 500;
-  }
-
-  .category-chevron {
-    font-size: 12px;
-    color: #aaa;
-    transition: transform 0.2s;
-  }
-
+  .category-icon { font-size: 20px; width: 28px; text-align: center; }
+  .category-title { font-size: 15px; font-weight: 700; flex: 1; color: #2d5a27; }
+  .category-count { font-size: 12px; color: #888; font-weight: 500; }
+  .category-chevron { font-size: 12px; color: #aaa; transition: transform 0.2s; }
   .category.collapsed .category-chevron { transform: rotate(-90deg); }
 
   .items-list {
     background: white;
-    border: 1px solid #e0e0e0;
-    border-top: none;
-    border-radius: 0 0 12px 12px;
-    overflow: hidden;
+    border: 1px solid #e0e0e0; border-top: none;
+    border-radius: 0 0 12px 12px; overflow: hidden;
   }
 
   .category.collapsed .items-list { display: none; }
 
+  /* ── ITEMS ── */
   .item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    display: flex; align-items: center; gap: 12px;
     padding: 13px 16px;
     border-bottom: 1px solid #f0f0f0;
-    cursor: pointer;
-    transition: background 0.1s;
-    -webkit-user-select: none;
-    user-select: none;
+    cursor: pointer; transition: background 0.1s;
+    -webkit-user-select: none; user-select: none;
   }
 
   .item:last-child { border-bottom: none; }
   .item:active { background: #f8f8f8; }
-
-  .item.missing {
-    background: #fff5f5;
-  }
-
-  .item.missing .item-label {
-    color: #c0392b;
-    font-weight: 600;
-  }
+  .item.missing { background: #fff5f5; }
+  .item.missing .item-label { color: #c0392b; font-weight: 600; }
 
   .checkbox {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    border: 2px solid #ccc;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s;
-    background: white;
+    width: 24px; height: 24px; border-radius: 6px;
+    border: 2px solid #ccc; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; background: white;
   }
 
-  .item.checked .checkbox {
-    background: #2d5a27;
-    border-color: #2d5a27;
-  }
-
-  .item.missing .checkbox {
-    border-color: #e74c3c;
-  }
+  .item.checked .checkbox { background: #2d5a27; border-color: #2d5a27; }
+  .item.missing .checkbox { border-color: #e74c3c; }
 
   .checkmark {
-    display: none;
-    width: 13px;
-    height: 13px;
-    stroke: white;
-    stroke-width: 2.5;
-    fill: none;
+    display: none; width: 13px; height: 13px;
+    stroke: white; stroke-width: 2.5; fill: none;
   }
 
   .item.checked .checkmark { display: block; }
 
   .missing-dot {
-    display: block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #e74c3c;
-    transition: all 0.15s;
+    display: block; width: 8px; height: 8px;
+    border-radius: 50%; background: #e74c3c; transition: all 0.15s;
   }
 
   .item.checked .missing-dot,
   .item:not(.missing) .missing-dot { display: none; }
 
   .item-label {
-    font-size: 15px;
-    color: #222;
-    flex: 1;
-    line-height: 1.3;
-    transition: color 0.15s;
+    font-size: 15px; color: #222; flex: 1;
+    line-height: 1.3; transition: color 0.15s;
   }
 
-  .item.checked .item-label {
-    color: #aaa;
-    text-decoration: line-through;
-  }
-
-  .item-note {
-    font-size: 12px;
-    color: #999;
-    margin-top: 2px;
-  }
-
+  .item.checked .item-label { color: #aaa; text-decoration: line-through; }
+  .item-note { font-size: 12px; color: #999; margin-top: 2px; }
   .item.missing .item-note { color: #e07070; }
 
+  /* ── BOTTOM BUTTONS ── */
   .reset-btn {
-    display: block;
-    margin: 24px auto 8px;
-    padding: 14px 32px;
-    background: #2d5a27;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    width: calc(100% - 24px);
-    max-width: 400px;
-    letter-spacing: 0.2px;
+    display: block; margin: 24px auto 8px;
+    padding: 14px 32px; background: #2d5a27;
+    color: white; border: none; border-radius: 12px;
+    font-size: 16px; font-weight: 700; cursor: pointer;
+    width: calc(100% - 24px); max-width: 400px;
   }
 
   .reset-btn:active { background: #1e3d1b; transform: scale(0.99); }
 
-  .footer-note {
-    text-align: center;
-    font-size: 12px;
-    color: #aaa;
-    padding: 8px 16px 0;
+  .switch-btn {
+    display: block; margin: 0 auto 4px;
+    padding: 12px 32px; background: transparent;
+    color: #888; border: 1.5px solid #ccc; border-radius: 12px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    width: calc(100% - 24px); max-width: 400px;
   }
 
+  .switch-btn:active { background: #eee; }
+
+  .footer-note {
+    text-align: center; font-size: 12px;
+    color: #aaa; padding: 8px 16px 0;
+  }
+
+  /* ── DARK MODE ── */
   @media (prefers-color-scheme: dark) {
     body { background: #1a1a1a; color: #f0f0f0; }
     header { background: #1e3d1b; }
@@ -272,53 +251,85 @@
     .item.checked .item-label { color: #555; }
     .checkbox { background: #333; border-color: #555; }
     .item.missing .checkbox { border-color: #cc3333; }
+    .switch-btn { color: #666; border-color: #444; }
+    .switch-btn:active { background: #2a2a2a; }
+    .footer-note { color: #555; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>🏕️ Kempovací checklist</h1>
-  <div class="progress-bar-wrap">
-    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
-  </div>
-  <div class="progress-text" id="progressText">0 / 0 zaškrtnuto</div>
-</header>
-
-<div class="toolbar">
-  <button id="btnAll" class="active" onclick="setFilter('all')">Vše</button>
-  <button id="btnMissing" onclick="setFilter('missing')">Chybí</button>
-  <button id="btnDone" onclick="setFilter('done')">Mám</button>
+<!-- USER PICKER -->
+<div id="picker">
+  <h2>🏕️ Kempovací checklist</h2>
+  <p>Kdo jsi?</p>
+  <div class="user-grid" id="userGrid"></div>
 </div>
 
-<div id="categoriesContainer"></div>
+<!-- MAIN APP (hidden until user selected) -->
+<div id="app" style="display:none">
+  <header>
+    <div class="header-top">
+      <h1 id="headerTitle">🏕️ Checklist</h1>
+      <div class="user-chip" onclick="switchUser()" id="userChip">
+        <span class="user-chip-avatar" id="chipAvatar"></span>
+        <span id="chipName"></span>
+      </div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+    </div>
+    <div class="progress-text" id="progressText">0 / 0 zaškrtnuto</div>
+  </header>
 
-<button class="reset-btn" onclick="confirmReset()">Začít znovu (vše odškrtnout)</button>
-<p class="footer-note">Stav se ukládá automaticky v prohlížeči</p>
+  <div class="toolbar">
+    <button id="btnAll" class="active" onclick="setFilter('all')">Vše</button>
+    <button id="btnMissing" onclick="setFilter('missing')">Chybí</button>
+    <button id="btnDone" onclick="setFilter('done')">Mám</button>
+  </div>
+
+  <div id="categoriesContainer"></div>
+
+  <button class="reset-btn" onclick="confirmReset()">Začít znovu (vše odškrtnout)</button>
+  <button class="switch-btn" onclick="switchUser()">Změnit uživatele</button>
+  <p class="footer-note">Každý má svůj vlastní seznam</p>
+</div>
 
 <script>
+const USERS = [
+  { id: 'branas',       name: 'Braňas',        avatar: '🧔' },
+  { id: 'celis',        name: 'Čelis',          avatar: '😎' },
+  { id: 'jagr',         name: 'Kapitán Jägger', avatar: '⚓' },
+  { id: 'mocal',        name: 'Močál',          avatar: '🐊' },
+  { id: 'zeblitek',     name: 'Pan zeblitek',   avatar: '🦓' },
+  { id: 'stepik',       name: 'Stepik',         avatar: '🥾' },
+  { id: 'vodka',        name: 'VODKA master',   avatar: '🍶' },
+  { id: 'berta',        name: 'Berta',          avatar: '🌸' },
+  { id: 'kotlas',       name: 'Kotlas',         avatar: '🪓' },
+];
+
 const DATA = [
   {
     icon: "🛏️",
     title: "Spánek & přístřeší",
     items: [
-      { id: "stan", label: "Stan / hamaka" },
+      { id: "stan",      label: "Stan / hamaka" },
       { id: "karimatka", label: "Karimatka" },
-      { id: "spacak", label: "Spací pytel" },
-      { id: "polstar", label: "Polštář" },
-      { id: "lehatko", label: "Nafukovací lehátko" },
+      { id: "spacak",    label: "Spací pytel" },
+      { id: "polstar",   label: "Polštář" },
+      { id: "lehatko",   label: "Nafukovací lehátko" },
     ]
   },
   {
     icon: "👕",
     title: "Oblečení",
     items: [
-      { id: "trika", label: "Trička" },
-      { id: "trenky", label: "Trenky" },
+      { id: "trika",   label: "Trička" },
+      { id: "trenky",  label: "Trenky" },
       { id: "ponozky", label: "Ponožky" },
       { id: "kratasy", label: "Kraťasy" },
-      { id: "tepláky", label: "Tepláky" },
-      { id: "mikina", label: "Mikina" },
+      { id: "teplaky", label: "Tepláky" },
+      { id: "mikina",  label: "Mikina" },
     ]
   },
   {
@@ -333,39 +344,63 @@ const DATA = [
     icon: "🧴",
     title: "Hygiena & zdraví",
     items: [
-      { id: "leky", label: "Léky" },
+      { id: "leky",     label: "Léky" },
       { id: "opalovak", label: "Opalovák" },
       { id: "repelent", label: "Repelent" },
-      { id: "hygiena", label: "Hygiena" },
+      { id: "hygiena",  label: "Hygiena" },
     ]
   },
   {
     icon: "🎒",
     title: "Vybavení & zábava",
     items: [
-      { id: "nuz", label: "Nůž" },
+      { id: "nuz",   label: "Nůž" },
       { id: "provaz", label: "Provaz" },
       { id: "karty", label: "Karty" },
     ]
   },
 ];
 
-const STORAGE_KEY = 'kemping_checklist_v1';
+const USER_KEY = 'kemping_current_user';
 
+let currentUser = null;
 let checked = {};
 let currentFilter = 'all';
 
+function storageKey() {
+  return 'kemping_' + currentUser.id;
+}
+
 function loadState() {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) checked = JSON.parse(saved);
-  } catch(e) {}
+    const saved = localStorage.getItem(storageKey());
+    checked = saved ? JSON.parse(saved) : {};
+  } catch(e) { checked = {}; }
 }
 
 function saveState() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+    localStorage.setItem(storageKey(), JSON.stringify(checked));
   } catch(e) {}
+}
+
+function selectUser(user) {
+  currentUser = user;
+  try { localStorage.setItem(USER_KEY, user.id); } catch(e) {}
+  loadState();
+  document.getElementById('picker').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('chipAvatar').textContent = user.avatar;
+  document.getElementById('chipName').textContent = user.name;
+  document.getElementById('headerTitle').textContent = '🏕️ ' + user.name;
+  buildDOM();
+  render();
+}
+
+function switchUser() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('picker').style.display = 'flex';
+  currentUser = null;
 }
 
 function toggleItem(id) {
@@ -374,9 +409,8 @@ function toggleItem(id) {
   render();
 }
 
-function toggleCategory(catIndex) {
-  const el = document.getElementById('cat_' + catIndex);
-  el.classList.toggle('collapsed');
+function toggleCategory(ci) {
+  document.getElementById('cat_' + ci).classList.toggle('collapsed');
 }
 
 function setFilter(f) {
@@ -409,28 +443,21 @@ function updateProgress() {
 
 function render() {
   updateProgress();
-  const container = document.getElementById('categoriesContainer');
-
   DATA.forEach((cat, ci) => {
     const catEl = document.getElementById('cat_' + ci);
     const listEl = document.getElementById('list_' + ci);
-
     let visibleItems = cat.items;
     if (currentFilter === 'missing') visibleItems = cat.items.filter(i => !checked[i.id]);
-    if (currentFilter === 'done') visibleItems = cat.items.filter(i => checked[i.id]);
-
-    const total = cat.items.length;
+    if (currentFilter === 'done')    visibleItems = cat.items.filter(i =>  checked[i.id]);
     const done = cat.items.filter(i => checked[i.id]).length;
-
-    document.getElementById('count_' + ci).textContent = done + '/' + total;
-
+    document.getElementById('count_' + ci).textContent = done + '/' + cat.items.length;
     if (visibleItems.length === 0) {
       catEl.style.display = 'none';
     } else {
       catEl.style.display = 'block';
       listEl.innerHTML = visibleItems.map(item => {
-        const isMissing = !checked[item.id];
         const isChecked = !!checked[item.id];
+        const isMissing = !isChecked;
         return `<div class="item ${isChecked ? 'checked' : ''} ${isMissing && currentFilter !== 'done' ? 'missing' : ''}" onclick="toggleItem('${item.id}')">
           <div class="checkbox">
             <svg class="checkmark" viewBox="0 0 13 10"><polyline points="1,5 5,9 12,1"/></svg>
@@ -449,7 +476,6 @@ function render() {
 function buildDOM() {
   const container = document.getElementById('categoriesContainer');
   container.innerHTML = '';
-
   DATA.forEach((cat, ci) => {
     const div = document.createElement('div');
     div.className = 'category';
@@ -467,9 +493,27 @@ function buildDOM() {
   });
 }
 
-loadState();
-buildDOM();
-render();
+function buildPicker() {
+  const grid = document.getElementById('userGrid');
+  grid.innerHTML = USERS.map(u => `
+    <button class="user-btn" onclick="selectUser(USERS.find(x=>x.id==='${u.id}'))">
+      <span class="user-avatar">${u.avatar}</span>
+      <span class="user-name">${u.name}</span>
+    </button>
+  `).join('');
+}
+
+// Init
+buildPicker();
+
+// Auto-select if same user opens again
+try {
+  const savedId = localStorage.getItem(USER_KEY);
+  if (savedId) {
+    const u = USERS.find(x => x.id === savedId);
+    if (u) selectUser(u);
+  }
+} catch(e) {}
 </script>
 
 </body>
